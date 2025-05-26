@@ -26,6 +26,24 @@ def send_email():
         passwordEntry=Entry(senderFrame,font=('arial',14,'bold'),bd=2,width=23,relief=RIDGE)
         passwordEntry.grid(row=1,column=1,padx=10,pady=8)
 
+        recipientFrame=LabelFrame(root1,text='RECIPINENT',font=('arial',16,'bold'),bd=6,bg='gray20',fg='white')
+        recipientFrame.grid(row=1,column=0,padx=40,pady=20)
+
+        recieverLabel = Label(recipientFrame, text="Email-Adress", font=('arial', 14, 'bold'), bd=6, bg='gray20', fg='white')
+        recieverLabel.grid(row=0, column=0, padx=10, pady=8)
+
+        recieverEntry = Entry(recipientFrame, font=('arial', 14, 'bold'), bd=2, width=23, relief=RIDGE)
+        recieverEntry.grid(row=0, column=1, padx=10, pady=8)
+
+        messageLabel = Label(senderFrame, text="message", font=('arial', 14, 'bold'), bd=6, bg='gray20', fg='white')
+        messageLabel.grid(row=1, column=0, padx=10, pady=8)
+
+        email_textarea=Text(recipientFrame,font=('arial', 14, 'bold'),bd=2,relief=SUNKEN)
+        email_textarea.grid(row=2,column=0)
+
+
+
+
 
 
 
