@@ -2,6 +2,41 @@ from tkinter import *
 from tkinter import messagebox
 import random,os,tempfile
 #functionality part
+def send_email():
+    if textarea.get(1.0, END) == '\n':
+        messagebox.showerror('err0r', 'bill is empty')
+    else:
+        root1=Toplevel()
+        root1.title('send-email')
+        root.config(bg='gray20')
+        root1.resizable(0,0)
+
+        senderFrame=LabelFrame(root1,text='SENDER',font=('arial',16,'bold'),bd=6,bg='gray20',fg='white')
+        senderFrame.grid(row=0,column=0,padx=40,pady=20)
+        senderLabel=Label(senderFrame,text="Sender's Email",font=('arial',14,'bold'),bd=6,bg='gray20',fg='white')
+        senderLabel.grid(row=0,column=0,padx=10,pady=8)
+
+        senderEntry=Entry(senderFrame,font=('arial',14,'bold'),bd=2,width=23,relief=RIDGE)
+        senderEntry.grid(row=0,column=1,padx=10,pady=8)
+
+
+        passwordLabel=Label(senderFrame,text="Password",font=('arial',14,'bold'),bd=6,bg='gray20',fg='white')
+        passwordLabel.grid(row=1,column=0,padx=10,pady=8)
+
+        passwordEntry=Entry(senderFrame,font=('arial',14,'bold'),bd=2,width=23,relief=RIDGE)
+        passwordEntry.grid(row=1,column=1,padx=10,pady=8)
+
+
+
+
+
+        root1.mainloop()
+
+
+
+
+
+
 def print_bill():
     if textarea.get(1.0,END)=='\n':
         messagebox.showerror('err0r','bill is empty')
@@ -433,7 +468,7 @@ billButton=Button(buttonFrame,text='Bill',font=('arial',16,'bold'),bg='gray20',f
 billButton.grid(row=0,column=1,pady=20,padx=5)
 
 emailButton=Button(buttonFrame,text='E-mail',font=('arial',16,'bold'),bg='gray20',fg='white'
-                   ,bd=5,width=8,pady=10)
+                   ,bd=5,width=8,pady=10 ,command=send_email)
 emailButton.grid(row=0,column=3,pady=20,padx=5)
 
 printButton=Button(buttonFrame,text='Print',font=('arial',16,'bold'),bg='gray20',fg='white'
