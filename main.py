@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter import messagebox
 import random,os,tempfile
-#functionality part
 def send_email():
+
     if textarea.get(1.0, END) == '\n':
         messagebox.showerror('err0r', 'bill is empty')
     else:
