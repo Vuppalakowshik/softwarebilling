@@ -1,12 +1,87 @@
 from tkinter import *
 from tkinter import messagebox
-import random,os,tempfile
+import random,os,tempfile,smtplib,sys
+#functionality part
+def clear():
+    RiceEntry.delete(0,END)
+    daalEntry.delete(0,END)
+    oilEntry.delete(0,END)
+    WheatEntry.delete(0,END)
+    SugarEntry.delete(0,END)
+    TeaEntry.delete(0,END)
+    #fancyitems
+    bathsoapEntry.delete(0, END)
+    facecreamEntry.delete(0,END)
+    hairsprayEntry.delete(0,END)
+    hairgelEntry.delete(0,END)
+    bodylotionEntry.delete(0,END)
+    facecreamEntry.delete(0,END)
+    facewashEntry.delete(0,END)
+    #drinksprice
+    pepsiEntry.delete(0,END)
+    cococolaEntry.delete(0,END)
+    MaazaEntry.delete(0,END)
+    spriteEntry.delete(0,END)
+    frootiEntry.delete(0,END)
+    dewEntry.delete(0,END)
+#INSERTION TAKE S PLACE
+
+    RiceEntry.insert(0, 0)
+    daalEntry.insert(0, 0)
+    oilEntry.insert(0, 0)
+    WheatEntry.insert(0, 0)
+    SugarEntry.insert(0, 0)
+    TeaEntry.insert(0, 0)
+    # fancyitems
+    bathsoapEntry.insert(0, 0)
+    facecreamEntry.insert(0, 0)
+    hairsprayEntry.insert(0, 0)
+    hairgelEntry.insert(0, 0)
+    bodylotionEntry.insert(0, 0)
+    facewashEntry.insert(0, 0)
+    # drinksprice
+    pepsiEntry.insert(0, 0)
+    cococolaEntry.insert(0, 0)
+    MaazaEntry.insert(0, 0)
+    spriteEntry.insert(0, 0)
+    frootiEntry.insert(0, 0)
+    dewEntry.insert(0,0)
+#END INSERTION
+    cosmetictaxEntry.delete(0,END) #taxentry
+    grocerytaxEntry.delete(0,END)
+    drinkstaxEntry.delete(0,END)
+    #pricentry
+    cosmeticpriceEntry.delete(0,END)
+    grocerypriceEntry.delete(0,END)
+    drinkspriceEntry.delete(0,END)
+
+    nameEntry.delete(0,END)
+    phoneEntry.delete(0,END)
+    billnumberEntry.delete(0,END)
+
+    textarea.delete(1.0,END)
+
+
 def send_email():
+    def send_gmail():
+        try:
+            ob = smtplib.SMTP('smtp.gmail.com', 587)
+            ob.starttls()
+            ob.login(senderEntry.get(), passwordEntry.get())
+            message = email_textarea.get(1.0, END)
+            ob.sendmail(senderEntry.get(), recieverEntry.get(), message)
+            ob.quit()
+            messagebox.showinfo('success', 'bill is successfully send',parent=root1)
+            root1.destroy()
+        except:
+            messagebox.showerror('Error','Something went wrong pease try again')
+
 
     if textarea.get(1.0, END) == '\n':
         messagebox.showerror('err0r', 'bill is empty')
     else:
         root1=Toplevel()
+        root1.grab_set()
         root1.title('send-email')
         root.config(bg='gray20')
         root1.resizable(0,0)
@@ -23,7 +98,7 @@ def send_email():
         passwordLabel=Label(senderFrame,text="Password",font=('arial',14,'bold'),bd=6,bg='gray20',fg='white')
         passwordLabel.grid(row=1,column=0,padx=10,pady=8)
 
-        passwordEntry=Entry(senderFrame,font=('arial',14,'bold'),bd=2,width=23,relief=RIDGE)
+        passwordEntry=Entry(senderFrame,font=('arial',14,'bold'),bd=2,width=23,relief=RIDGE,show='*')
         passwordEntry.grid(row=1,column=1,padx=10,pady=8)
 
         recipientFrame=LabelFrame(root1,text='RECIPINENT',font=('arial',16,'bold'),bd=6,bg='gray20',fg='white')
@@ -38,15 +113,13 @@ def send_email():
         messageLabel = Label(senderFrame, text="message", font=('arial', 14, 'bold'), bd=6, bg='gray20', fg='white')
         messageLabel.grid(row=1, column=0, padx=10, pady=8)
 
-        email_textarea=Text(recipientFrame,font=('arial', 14, 'bold'),bd=2,relief=SUNKEN)
-        email_textarea.grid(row=2,column=0)
+        email_textarea=Text(recipientFrame,font=('arial', 14, 'bold'),bd=2,relief=SUNKEN,width=42,height=11)
+        email_textarea.grid(row=2,column=0,columnspan=2)
+        email_textarea.delete(1.0,END)
+        email_textarea.insert(END,textarea.get(1.0,END).replace('=','').replace('-','').replace('\t\t\t','\t\t'))
 
-
-
-
-
-
-
+        sendButton = Button(root1, text='SEND', font=('arial', 16, 'bold'), width=20, command=send_gmail)
+        sendButton.grid(row=2, column=0, pady=20)
 
         root1.mainloop()
 
@@ -114,48 +187,43 @@ def bill_area():
         textarea.insert(END,'\n =====================================================\n')
         textarea.insert(END,'Product\t\t\tQuantity\t\t\tPrice')
         textarea.insert(END,'\n =====================================================\n')
-        if bathsoapEntry.get()!=0:
-            textarea.insert(END,f'Bath Soap\t\t\t{bathsoapEntry.get()}\t\t\t{soapprice}\n')
-        if facecreamEntry.get() != 0:
+        if int(bathsoapEntry.get()) > 0:
+            textarea.insert(END, f'Bath Soap\t\t\t{bathsoapEntry.get()}\t\t\t{soapprice}\n')
+        if int(facecreamEntry.get()) > 0:
             textarea.insert(END, f'Face cream\t\t\t{facecreamEntry.get()}\t\t\t{facecreamprice}\n')
-        if facewashEntry.get() != 0:
+        if int(facewashEntry.get()) > 0:
             textarea.insert(END, f'Face wash\t\t\t{facewashEntry.get()}\t\t\t{facewashprice}\n')
-        if hairgelEntry.get() != 0:
-            textarea.insert(END, f'hair gel\t\t\t{facecreamEntry.get()}\t\t\t{hairgelprice}\n')
-        if hairsprayEntry.get() != 0:
-            textarea.insert(END, f'hair spray\t\t\t {hairsprayEntry.get()}\t\t\t{hairsprayprice}\n')
-        if bodylotionEntry.get() != 0:
-            textarea.insert(END, f'body lotion\t\t\t{bodylotionEntry.get()}\t\t\t{bodylotionprice}\n')
-        if RiceEntry.get() != 0:
-            textarea.insert(END, f'Rice \t\t\t{RiceEntry.get()}\t\t\t{riceprice}\n')
-        if oilEntry.get() != 0:
-                textarea.insert(END, f'oil \t\t\t{oilEntry.get()}\t\t\t{oilprice}\n')
-        if daalEntry.get() != 0:
-            textarea.insert(END, f'daal \t\t\t{daalEntry.get()}\t\t\t{daalprice}\n')
-        if WheatEntry.get() != 0:
-            textarea.insert(END, f'wheat \t\t\t{WheatEntry.get()}\t\t\t{Wheatprice}\n')
-        if SugarEntry.get() != 0:
-            textarea.insert(END, f'sugar\t\t\t{SugarEntry.get()}\t\t\t{sugarprice}\n')
-        if TeaEntry.get() != 0:
-            textarea.insert(END, f'Tea \t\t\t{TeaEntry.get()}\t\t\t{teaprice}\n')
+        if int(hairgelEntry.get()) > 0:
+            textarea.insert(END, f'Hair gel\t\t\t{hairgelEntry.get()}\t\t\t{hairgelprice}\n')
+        if int(hairsprayEntry.get()) > 0:
+            textarea.insert(END, f'Hair spray\t\t\t{hairsprayEntry.get()}\t\t\t{hairsprayprice}\n')
+        if int(bodylotionEntry.get()) > 0:
+            textarea.insert(END, f'Body lotion\t\t\t{bodylotionEntry.get()}\t\t\t{bodylotionprice}\n')
+        if int(RiceEntry.get()) > 0:
+            textarea.insert(END, f'Rice\t\t\t{RiceEntry.get()}\t\t\t{riceprice}\n')
+        if int(oilEntry.get()) > 0:
+            textarea.insert(END, f'Oil\t\t\t{oilEntry.get()}\t\t\t{oilprice}\n')
+        if int(daalEntry.get()) > 0:
+            textarea.insert(END, f'Daal\t\t\t{daalEntry.get()}\t\t\t{daalprice}\n')
+        if int(WheatEntry.get()) > 0:
+            textarea.insert(END, f'Wheat\t\t\t{WheatEntry.get()}\t\t\t{Wheatprice}\n')
+        if int(SugarEntry.get()) > 0:
+            textarea.insert(END, f'Sugar\t\t\t{SugarEntry.get()}\t\t\t{sugarprice}\n')
+        if int(TeaEntry.get()) > 0:
+            textarea.insert(END, f'Tea\t\t\t{TeaEntry.get()}\t\t\t{teaprice}\n')
+        if int(MaazaEntry.get()) > 0:
+            textarea.insert(END, f'Maaza\t\t\t{MaazaEntry.get()}\t\t\t{Maazaprice}\n')
+        if int(pepsiEntry.get()) > 0:
+            textarea.insert(END, f'Pepsi\t\t\t{pepsiEntry.get()}\t\t\t{Pepsiprice}\n')
+        if int(dewEntry.get()) > 0:
+            textarea.insert(END, f'Dew\t\t\t{dewEntry.get()}\t\t\t{dewprice}\n')
+        if int(frootiEntry.get()) > 0:
+            textarea.insert(END, f'Frooti\t\t\t{frootiEntry.get()}\t\t\t{frootiprice}\n')
+        if int(cococolaEntry.get()) > 0:
+            textarea.insert(END, f'Cococola\t\t\t{cococolaEntry.get()}\t\t\t{cococolaprice}\n')
+        if int(spriteEntry.get()) > 0:
+            textarea.insert(END, f'Sprite\t\t\t{spriteEntry.get()}\t\t\t{spriteprice}\n')
 
-        if MaazaEntry.get() != 0:
-            textarea.insert(END, f'Maaza \t\t\t{MaazaEntry.get()}\t\t\t{Maazaprice}\n')
-
-        if pepsiEntry.get() != 0:
-            textarea.insert(END, f'Pepsi \t\t\t{pepsiEntry.get()}\t\t\t{Pepsiprice}\n')
-
-        if dewEntry.get() != 0:
-            textarea.insert(END, f'Dew \t\t\t{dewEntry.get()}\t\t\t{dewprice}\n')
-
-        if frootiEntry.get() != 0:
-            textarea.insert(END, f'Frooti \t\t\t{TeaEntry.get()}\t\t\t{frootiprice}\n')
-
-        if cococolaEntry.get() != 0:
-            textarea.insert(END, f'Cococola \t\t\t{cococolaEntry.get()}\t\t\t{ cococolaprice}\n')
-
-        if spriteEntry.get() != 0:
-            textarea.insert(END, f'sprite \t\t\t{spriteEntry.get()}\t\t\t{spriteprice}\n')
     textarea.insert(END, '\n =====================================================\n')
     if cosmetictaxEntry.get()!='0.0 Rs':
             textarea.insert(END,f'\n Cosmetic Tax \t\t\t {cosmetictaxEntry.get()}\n')
@@ -239,7 +307,17 @@ def total():
 root=Tk()
 root.title('Reatail billing system')
 root.geometry('1270x685')
-root.iconbitmap('billingicon.ico')
+
+# handle icon setting cleanly
+if getattr(sys, 'frozen', False):
+    # Running in a bundle (like exe), skip setting icon
+    pass
+else:
+    # Running from .py file
+    root.iconbitmap('billingicon.ico')
+import os
+app_icon = os.path.join(os.path.dirname(__file__), 'billingicon.ico')
+root.iconbitmap(app_icon)
 headingLabel=Label(root,text='Reatail Billing System',font=('times new roman',30,'bold')
 ,bg='gray20',fg='gold', bd=12,relief=GROOVE)
 headingLabel.pack(fill=X)
@@ -495,7 +573,7 @@ printButton.grid(row=0,column=4,pady=20,padx=5)
 
 
 clearButton=Button(buttonFrame,text='Clear',font=('arial',16,'bold'),bg='gray20',fg='white'
-                   ,bd=5,width=8,pady=10)
+                   ,bd=5,width=8,pady=10,command=clear)
 clearButton.grid(row=0,column=5,pady=20,padx=5)
 
 
